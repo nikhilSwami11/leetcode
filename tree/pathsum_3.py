@@ -36,14 +36,35 @@ def build_tree(nodes):
     return root
 
 class Solution(object):
-    def pathSum(self, root, targetSum):
+    def pathSum(self, root: TreeNode, targetSum: int):
         """
         :type root: Optional[TreeNode]
         :type targetSum: int
         :rtype: int
         """
-        count = 3
-        stack = [(root, root.value)]
+        count_map = {0:1}
+
+
+        def dfs(node: TreeNode, curr_sum: int):
+            if not node:
+                return 0
+            
+            curr_sum += node.val
+            
+            count = count_map.get(curr_sum - targetSum, 0)
+            
+            count_map[curr_sum] = count_map.get(curr_sum, 0) + 1
+            
+            count += dfs(node.left, curr_sum)
+            count += dfs(node.right, curr_sum)
+            
+            count_map[curr_sum] -= 1
+
+            return count
+
+        return dfs(root, 0) 
+
+
 
         
 
@@ -51,7 +72,7 @@ class Solution(object):
 if __name__ == "__main__":
     # Now you can just copy-paste the list from LeetCode
     null = None  # Friendly helper for 'null' in LeetCode examples
-    root = [10,5,-3,3,2,null,11,3,-2,null,1], 
+    root = [10, 5, -3, 3, 2, null, 11, 3, -2, null, 1]
     targetSum = 8
     
     root = build_tree(root)
