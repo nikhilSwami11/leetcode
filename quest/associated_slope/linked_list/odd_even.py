@@ -12,7 +12,6 @@ class Solution(object):
         :type head: Optional[ListNode]
         :rtype: Optional[ListNode]
         """
-        # streak should not break
         odd_head = head
         even_head = head.next
 
