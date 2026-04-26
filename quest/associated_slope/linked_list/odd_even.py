@@ -5,7 +5,7 @@ class ListNode(object):
         self.val = val
         self.next = next
 
-
+# // Solution of ofd even
 class Solution(object):
     def oddEvenList(self, head):
         """
