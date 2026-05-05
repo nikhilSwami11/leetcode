@@ -1,27 +1,38 @@
-from typing import List
+from typing import List, Optional
 
 class ListNode(object):
     def __init__(self, val=0, next=None):
         self.val = val
-        self.next = next
+        self.next : ListNode = next
 
 # // Solution of odd even
 class Solution(object):
-    def oddEvenList(self, head):
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         """
         :type head: Optional[ListNode]
         :rtype: Optional[ListNode]
         """
-        odd_head = head
-        even_head = head.next
+        if not head or not head.next:
+            return head
 
-        while odd_head and odd_head.next:
-            odd_head.next = odd_head.next.next
-        odd_head.next = even_head
-        while even_head and even_head.next:
-            even_head.next = even_head.next.next
+        odd_start = head
+        even_start = head.next
+        even_start_fix = even_start
 
+        while odd_start.next and even_start.next:
+            # iterate the odd pointer
+            odd_start.next = even_start.next
+            odd_start = odd_start.next
+
+            # iterate the even pointer 
+            even_start.next = odd_start.next
+            even_start = even_start.next
+        
+        odd_start.next = even_start_fix
         return head
+
+        
+    
 def create_linked_list(ls: List[int]):
     if len(ls) ==0:
         return None
@@ -40,12 +51,10 @@ def create_linked_list(ls: List[int]):
 
         
 if __name__ == "__main__":
-    ls = [1,1,2]
+    ls = [2,1,3,5,6,4,7]
     head = create_linked_list(ls)
 
     head = Solution().oddEvenList(head)
     while head:
         print(head.val)
         head = head.next
-
-# new files 
