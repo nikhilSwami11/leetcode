@@ -1,0 +1,79 @@
+from typing import Optional
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow = head
+        fast = head
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+
+        return False
+
+# ==========================================================
+# Specialized Helper Functions to Test Cycles Locally
+# ==========================================================
+
+def create_linked_list_with_cycle(arr: list[int], pos: int) -> Optional[ListNode]:
+    """
+    Converts an array to a linked list and links the last node's 
+    'next' pointer back to the index specified by 'pos' (-1 for no cycle).
+    """
+    if not arr:
+        return None
+        
+    head = ListNode(arr[0])
+    curr = head
+    cycle_entry_node = None
+    
+    if pos == 0:
+        cycle_entry_node = head
+        
+    # Build out the rest of the list linearly
+    for i in range(1, len(arr)):
+        curr.next = ListNode(arr[i])
+        curr = curr.next
+        if i == pos:
+            cycle_entry_node = curr
+            
+    # Connect the tail back to the entry node to form the cyclic ring
+    if pos != -1 and cycle_entry_node:
+        curr.next = cycle_entry_node
+        
+    return head
+
+# Test Case Execution
+if __name__ == "__main__":
+    solution = Solution()
+    
+    # Example 1: Cyclic Array [3, 2, 0, -4] where tail points to index 1 (value 2)
+    elements = [3, 2, 0, -4]
+    cycle_index = 1 
+    
+    head_with_cycle = create_linked_list_with_cycle(elements, cycle_index)
+    
+    print("Testing Linked List with a cycle...")
+    result_true = solution.hasCycle(head_with_cycle)
+    print(f"Cycle detected? -> {result_true}")  # Expected output: True
+    
+    print("-" * 40)
+    
+    # Example 2: Non-Cyclic Array [1, 2]
+    no_cycle_elements = [1, 2]
+    no_cycle_index = -1
+    
+    head_without_cycle = create_linked_list_with_cycle(no_cycle_elements, no_cycle_index)
+    
+    print("Testing Linked List without a cycle...")
+    result_false = solution.hasCycle(head_without_cycle)
+    print(f"Cycle detected? -> {result_false}")  # Expected output: False
