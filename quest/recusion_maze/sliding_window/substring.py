@@ -17,7 +17,6 @@ class Solution:
                 start += 1
         return total_substring
 
-# done
 
 s = "aaacb"
 print(Solution().numberOfSubstrings(s))
