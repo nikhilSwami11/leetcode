@@ -24,4 +24,4 @@ class Solution:
 
 
 s = "aacecaaa"
-print(Solution().shortestPalindrome())
+print(Solution().shortestPalindrome(s))
