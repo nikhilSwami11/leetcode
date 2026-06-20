@@ -18,6 +18,6 @@ class Solution:
 
         return "".join(st)
     
-s = "3[a]2[bc]"
+s = "3[abc]2[bc]"
 print(Solution().decodeString(s))
             
